@@ -115,3 +115,10 @@ export const authRole = (...roles) => {
         }
     };
 };
+
+export const authorizeUser = (req, res, next) => {
+    if (req.user.id !== req.params.id) {
+        return next(new ApiError("Yetkisiz eylem", 403));
+    }
+    return next();
+};

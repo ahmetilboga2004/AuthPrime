@@ -43,7 +43,7 @@ async function startServer() {
     try {
         await connectDb();
         app.listen(port, () => {
-            logger.info("Sunucu http://localhost:${port} adresinde başlatıldı");
+            logger.info(`Sunucu http://localhost:${port} adresinde başlatıldı`);
         });
     } catch (error) {
         logger.error(`Hata oluştu: ${error}`);
