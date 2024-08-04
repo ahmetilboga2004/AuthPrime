@@ -25,7 +25,7 @@ export const register = async (req, res, next) => {
         delete userWithoutPassword.password;
         sendResponse(res, 201, "Kullanıcı kaydı başarılı", userWithoutPassword);
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -74,7 +74,7 @@ export const login = async (req, res, next) => {
         res.setHeader("x-new-token", accessToken);
         sendResponse(res, 200, "Giriş başarılı", {});
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -107,6 +107,32 @@ export const logout = async (req, res, next) => {
         });
         sendResponse(res, 200, "Başarılı bir şekilde çıkış yapıldı");
     } catch (error) {
-        next(error);
+        return next(error);
+    }
+};
+
+export const closeSession = async (req, res, next) => {
+    try {
+        const sessionId = req.params.sessionId;
+        const userId = req.user.id;
+        await redisService.delSession(userId, sessionId);
+        sendResponse(res, 200, "Başarılı bir şekilde çıkış yapıldı");
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export const closeAllSession = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        await redisService.delAllSessions(userId);
+        res.clearCookie("refreshToken", {
+            httpOnly: true,
+            sameSite: "None",
+            secure: false,
+        });
+        sendResponse(res, 200, "Tüm cihazlardan çıkış yapıldı");
+    } catch (error) {
+        return next(error);
     }
 };
