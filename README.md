@@ -7,7 +7,7 @@ Bu proje, Express.js kullanılarak geliştirilmiş kapsamlı bir kimlik doğrula
 -   Kullanıcı kaydı ve girişi
 -   JWT tabanlı kimlik doğrulama
 -   Redis ile oturum yönetimi
--   Rol tabanlı yetkilendirme
+-   Rol ve Yetki tabanlı yetkilendirme
 -   Hız sınırlama
 -   Hata işleme
 -   Güvenli token yenileme mekanizması
@@ -57,11 +57,11 @@ Oturum yönetimi için Redis veritabanı ile etkileşimi sağlar.
 ### 1. İstemciden Gelen İstek
 
 -   İstemciden gelen isteği alırız.
--   İstek içinde `Authentication` başlığı olup olmadığını kontrol ederiz. Bu başlık, kullanıcının oturum açtığını belirten `Access Token`'ı içerir.
+-   İstek içinde `Authorization` başlığı olup olmadığını kontrol ederiz. Bu başlık, kullanıcının oturum açtığını belirten `Bearer Access Token`'ı içerir.
 
 ### 2. Access Token Kontrolü
 
--   `Authentication` başlığı varsa, içindeki `Access Token`'ı alırız.
+-   `Authorization` başlığı varsa, içindeki `Bearer Access Token`'ı alırız.
 -   `Access Token`'ı doğrulama işlemi başlatılır. Bu işlemde, token'ın geçerli olup olmadığı ve istemcinin IP ve cihaz bilgileri ile uyumlu olup olmadığı kontrol edilir.
     -   **Başarılı Olursa:**
         -   `req.user` değişkenine doğrulanan kullanıcı bilgilerini tanımlarız.
