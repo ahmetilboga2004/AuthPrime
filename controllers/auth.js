@@ -3,15 +3,12 @@ import ApiError from "../utils/apiError.js";
 import sendResponse from "../utils/sendResponse.js";
 import bcrypt from "bcrypt";
 import tokenService from "../services/tokenService.js";
-import validateBody from "../utils/validateBody.js";
 import redisService from "../services/redisService.js";
 
 export const register = async (req, res, next) => {
     try {
         const { firstName, lastName, username, password, role } = req.body;
         const userRole = role || "user";
-
-        validateBody(userRole, firstName, lastName, username, password);
 
         const user = await User.create({
             firstName,
@@ -34,7 +31,6 @@ export const login = async (req, res, next) => {
         const { username, password, role } = req.body;
 
         const userRole = role || "user";
-        validateBody(userRole, username, password);
 
         const user = await User.findOne({
             where: {
