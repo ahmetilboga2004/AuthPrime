@@ -35,7 +35,7 @@ export const authentication = (req, res, next) => {
 
 const handleRefreshToken = async (req, res, next) => {
     try {
-        const token = req.cookies.refreshToken;
+        const token = req.cookies?.refreshToken;
 
         if (token) {
             const decodedRefreshToken = await tokenService.verifyRefreshToken(
