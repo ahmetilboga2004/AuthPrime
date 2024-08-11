@@ -5,7 +5,7 @@ import ApiError from "../utils/apiError.js";
 export const authentication = (req, res, next) => {
     try {
         const authHeader =
-            req.headers.Authorization || req.headers["Authorization"];
+            req.headers.authorization || req.headers["authorization"];
 
         if (!authHeader) {
             return handleRefreshToken(req, res, next);
