@@ -55,31 +55,6 @@ const handleRefreshToken = async (req, res, next) => {
                     res.setHeader("x-new-token", newAccessToken);
                     req.user = decodedRefreshToken.userData;
                 }
-
-                await redisService.delSession(
-                    decodedRefreshToken.userData.id,
-                    decodedRefreshToken.jti
-                );
-                const { refreshToken, jti } = tokenService.generateRefreshToken(
-                    decodedRefreshToken.userData,
-                    req.ip,
-                    req.ua
-                );
-                if (refreshToken) {
-                    await redisService.setSession(
-                        decodedRefreshToken.userData.id,
-                        jti,
-                        refreshToken
-                    );
-                    res.cookie("refreshToken", refreshToken, {
-                        httpOnly: true,
-                        secure:
-                            process.env.NODE_ENV === "development"
-                                ? false
-                                : true,
-                        maxAge: 30 * 24 * 60 * 60 * 1000,
-                    });
-                }
             }
         }
         return next();
